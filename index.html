@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10151d">
+<title>FM Secret Pack Draft</title>
+
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #10151d;
+  --panel: #192330;
+  --line: #334354;
+  --text: #f3f6fa;
+  --muted: #aab7c5;
+  --gold: #f3c969;
+  --green: #72d6a0;
+  --red: #ff8585;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at top, #263447 0, #10151d 55%);
+  color: var(--text);
+  font: 16px/1.5 system-ui, sans-serif;
+}
+
+main {
+  max-width: 1000px;
+  margin: auto;
+  padding: 36px 20px 70px;
+}
+
+header {
+  text-align: center;
+  margin: 10px 0 30px;
+}
+
+.eyebrow {
+  color: var(--gold);
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  font-size: .76rem;
+}
+
+h1 {
+  font-size: clamp(2.1rem, 6vw, 4rem);
+  line-height: 1.02;
+  margin: 10px 0;
+}
+
+h1 span { color: var(--gold); }
+
+header p {
+  color: var(--muted);
+  max-width: 680px;
+  margin: 14px auto;
+}
+
+.notice {
+  border: 1px solid #66542c;
+  background: #332b1b;
+  color: #f7e7bf;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 22px 0;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 22px 0 28px;
+}
+
+.step {
+  background: #17212c;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.step b {
+  color: var(--gold);
+  display: block;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.card {
+  background: linear-gradient(160deg, var(--panel), #151e28);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 12px 30px #0002;
+}
+
+.card h2 { margin: 0 0 8px; }
+
+.card p, .card li {
+  color: var(--muted);
+  font-size: .94rem;
+}
+
+.card ul {
+  padding-left: 19px;
+  margin: 10px 0 0;
+}
+
+.tag {
+  display: inline-block;
+  color: #191919;
+  background: var(--gold);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .07em;
+  padding: 3px 8px;
+  border-radius: 99px;
+  margin-bottom: 9px;
+}
+
+section { margin-top: 30px; }
+
+h2.section {
+  font-size: 1.55rem;
+  margin: 0 0 12px;
+}
+
+label {
+  display: block;
+  color: #dce5ee;
+  font-weight: 650;
+  margin: 12px 0 6px;
+}
+
+input, select, textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #0f1720;
+  color: var(--text);
+  border-radius: 10px;
+  padding: 12px;
+  font: inherit;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 16px;
+  font: 700 .95rem system-ui;
+  cursor: pointer;
+  background: var(--gold);
+  color: #191919;
+  margin: 10px 7px 0 0;
+}
+
+button.secondary {
+  background: #2b3b4d;
+  color: var(--text);
+  border: 1px solid #46596c;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.output {
+  background: #0c131b;
+  border: 1px dashed #52677c;
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 12px;
+  overflow-wrap: anywhere;
+}
+
+.status {
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+.ok { color: var(--green); }
+.bad { color: var(--red); }
+.muted, .small { color: var(--muted); }
+.small { font-size: .85rem; }
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: .82rem;
+  margin-top: 38px;
+}
+
+@media(max-width:650px) {
+  .steps, .row { grid-template-columns: 1fr; }
+  main { padding: 24px 14px 50px; }
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<header>
+  <div class="eyebrow">Three managers · One secret draft</div>
+  <h1>FM <span>Secret Pack</span> Draft</h1>
+  <p>
+    Pick your advantage in private. Commit to it cryptographically.
+    Then reveal all three choices together.
+  </p>
+</header>
+
+<div class="notice">
+  <b>Important:</b> This is a static website. It does not send choices
+  to a server or coordinate players automatically. Share commitment
+  hashes in your group chat, then use the reveal checker.
+</div>
+
+<div class="steps">
+  <div class="step">
+    <b>01 · COMMIT</b>
+    <span class="small">Choose a pack and publish your hash.</span>
+  </div>
+  <div class="step">
+    <b>02 · WAIT</b>
+    <span class="small">All three hashes must be posted before anyone reveals.</span>
+  </div>
+  <div class="step">
+    <b>03 · REVEAL</b>
+    <span class="small">Share choices and verify every hash.</span>
+  </div>
+</div>
+
+
+<section>
+<h2 class="section">The five packs</h2>
+
+<div class="grid">
+
+<article class="card">
+  <span class="tag">MONEY & SCOUTING</span>
+  <h2>Finance Pack</h2>
+  <ul>
+    <li><b>Bonus:</b> £40 million</li>
+    <li><b>Staff:</b> Scout with 20 Judging Player Ability / 20 Judging Player Potential</li>
+    <li><b>Affiliate:</b> Any South American club with Shared Scouting Knowledge</li>
+  </ul>
+</article>
+
+<article class="card">
+  <span class="tag">THREE GENERATIONS</span>
+  <h2>Past & Future</h2>
+  <ul>
+    <li><b>Bonus:</b> Three players, all from the same position group: Defenders, Midfielders or Attackers</li>
+    <li>16-year-old: 80 CA / -10 PA</li>
+    <li>24-year-old: 100 CA / -8 PA</li>
+    <li>30-year-old: 120 CA / 120 PA, with all physical attributes capped at 5</li>
+    <li><b>Staff:</b> Coach with 40 stats</li>
+    <li><b>Affiliate:</b> Any Asian club with Marketing Relations</li>
+  </ul>
+</article>
+
+<article class="card">
+  <span class="tag">INTERNATIONAL LOANS</span>
+  <h2>World Cup Pack</h2>
+  <ul>
+    <li><b>Bonus:</b> Four players on loan for one season, with wages paid</li>
+    <li>Choose one goalkeeper, defender, midfielder and attacker from a random nation that played in the World Cup</li>
+    <li><b>Staff:</b> Physio with 20 Physiotherapy / 20 Sports Science</li>
+    <li><b>Affiliate:</b> Any club from your selected nation with Players Go On Loan</li>
+  </ul>
+</article>
+
+<article class="card">
+  <span class="tag">LONG-TERM BUILD</span>
+  <h2>Facilities Pack</h2>
+  <ul>
+    <li><b>Stadium:</b> 10,000-seat all-seater stadium with roof, undersoil heating, advertising hoardings</li>
+    <li><b>Facilities:</b> 20 Training Facilities, Youth Coaching, Youth Facilities, Youth Recruitment and Corporate Facilities</li>
+    <li><b>Staff:</b> 20 Youth Development</li>
+    <li><b>Affiliate:</b> Any Scandinavian club with Youth Player Training</li>
+  </ul>
+</article>
+
+<article class="card">
+  <span class="tag">WILDCARD</span>
+  <h2>The Wheel Deal</h2>
+  <ul>
+    <li><b>Bonus:</b> 28-year-old player with 100 CA / 100 PA, 20 in injury-proneness</li>
+    <li><b>Loan:</b> Choose any player from a random League Two club for one season, with wages paid</li>
+    <li><b>Stadium:</b> 3,000 terraced stadium</li>
+    <li><b>Sponsorship:</b> £1 million per year for 10 years (disability payment); manager must be in a wheelchair</li>
+    <li><b>Staff:</b> Assistant Manager with 60 stats</li>
+    <li><b>Affiliate:</b> Any African club with Scouting Knowledge</li>
+  </ul>
+</article>
+
+</div>
+
+<p class="small">
+  All pack bonuses should be
+  agreed and set up before the save begins.
+</p>
+</section>
+<h2 class="section">1. Make your secret commitment</h2>
+
+<div class="card">
+  <p class="muted">
+    Do this privately on your own device. Your pack and secret stay
+    in this browser until you copy them out.
+  </p>
+
+  <div class="row">
+    <div>
+      <label for="player">Your player label</label>
+      <input id="player" maxlength="40" placeholder="e.g. Manager 1">
+    </div>
+
+    <div>
+      <label for="pack">Choose your pack</label>
+      <select id="pack">
+        <option value="">Select a pack…</option>
+        <option value="FINANCE">Finance Pack</option>
+        <option value="PAST_FUTURE">Past & Future</option>
+        <option value="WORLD_CUP">World Cup Pack</option>
+        <option value="FACILITIES">Facilities Pack</option>
+        <option value="WHEEL_DEAL">The Wheel Deal</option>
+      </select>
+    </div>
+  </div>
+
+  <button id="make">Generate my commitment</button>
+
+  <div id="commitResult" hidden>
+    <div class="output">
+      <b>Your commitment hash</b>
+      <div id="hash" style="margin-top:7px"></div>
+    </div>
+
+    <button id="copyHash">Copy hash for group chat</button>
+    <button id="copyBundle" class="secondary">Copy private reveal details</button>
+
+    <p class="small">
+      Post only the hash in the group chat. Keep your private reveal
+      details secret until all three hashes have been posted.
+    </p>
+
+    <div id="commitStatus" class="status ok"></div>
+  </div>
+</div>
+</section>
+
+<section>
+<h2 class="section">2. Reveal and verify</h2>
+
+<div class="card">
+  <p class="muted">
+    After all three commitments are visible in the group chat,
+    each player reveals their pack and secret.
+  </p>
+
+  <label for="revealPlayer">Player label</label>
+  <input id="revealPlayer" placeholder="e.g. Manager 1">
+
+  <label for="revealPack">Revealed pack</label>
+  <select id="revealPack">
+    <option value="">Select a pack…</option>
+    <option value="FINANCE">Finance Pack</option>
+    <option value="PAST_FUTURE">Past & Future</option>
+    <option value="WORLD_CUP">World Cup Pack</option>
+    <option value="FACILITIES">Facilities Pack</option>
+    <option value="WHEEL_DEAL">The Wheel Deal</option>
+  </select>
+
+  <label for="nonce">Secret nonce</label>
+  <input id="nonce" placeholder="Paste your private secret nonce">
+
+  <label for="originalHash">Original commitment hash</label>
+  <textarea id="originalHash" placeholder="Paste the SHA-256 hash posted before the reveal"></textarea>
+
+  <button id="verify">Verify reveal</button>
+
+  <div id="verifyStatus" class="status" aria-live="polite"></div>
+</div>
+</section>
+
+<section>
+<h2 class="section">3. Check the full draft</h2>
+
+<div class="card">
+  <p class="muted">
+    Enter each player's pack here after successfully verifying their reveal.
+  </p>
+
+  <div class="row">
+    <div>
+      <label for="result1">Player 1 — verified pack</label>
+      <input id="result1" placeholder="Verified pack">
+    </div>
+
+    <div>
+      <label for="result2">Player 2 — verified pack</label>
+      <input id="result2" placeholder="Verified pack">
+    </div>
+  </div>
+
+  <label for="result3">Player 3 — verified pack</label>
+  <input id="result3" placeholder="Verified pack">
+
+  <button class="secondary" id="clear">Clear draft board</button>
+</div>
+</section>
+
+<footer>
+  FM Secret Pack Draft · Runs locally in your browser · No accounts · No server
+</footer>
+
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+
+const enc = new TextEncoder();
+const STORE = "fm-secret-pack-draft-v1";
+
+let privateBundle = null;
+
+function hex(bytes) {
+  return [...new Uint8Array(bytes)]
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function clean(s) {
+  return s.trim().normalize("NFC");
+}
+
+function canonical(player, pack, nonce) {
+  return `FM-PACK-DRAFT-v1|${clean(player)}|${pack}|${nonce}`;
+}
+
+async function sha256(s) {
+  return hex(await crypto.subtle.digest("SHA-256", enc.encode(s)));
+}
+
+function packName(id) {
+  return {
+    FINANCE: "Finance Pack",
+    PAST_FUTURE: "Past & Future",
+    WORLD_CUP: "World Cup Pack",
+    FACILITIES: "Facilities Pack",
+    WHEEL_DEAL: "The Wheel Deal"
+  }[id] || id;
+}
+
+// Generate a private commitment
+$("make").addEventListener("click", async () => {
+  const player = clean($("player").value);
+  const pack = $("pack").value;
+
+  if (!player || !pack) {
+    $("commitStatus").textContent =
+      "Enter a player label and choose a pack.";
+    return;
+  }
+
+  if (!crypto.subtle || !crypto.getRandomValues) {
+    $("commitStatus").textContent =
+      "This browser does not support secure cryptography.";
+    return;
+  }
+
+  // Generate a cryptographically secure 32-byte secret.
+  const random = new Uint8Array(32);
+  crypto.getRandomValues(random);
+
+  const nonce = hex(random);
+
+  const hash = await sha256(
+    canonical(player, pack, nonce)
+  );
+
+  privateBundle = {
+    player,
+    pack,
+    nonce,
+    hash
+  };
+
+  // Save privately in this browser.
+  try {
+    localStorage.setItem(STORE, JSON.stringify(privateBundle));
+  } catch (e) {}
+
+  $("hash").textContent = hash;
+  $("commitResult").hidden = false;
+
+  $("commitStatus").textContent =
+    "Commitment created. Keep the nonce private until reveal.";
+});
+
+// Copy public hash
+$("copyHash").addEventListener("click", async () => {
+  if (!privateBundle) return;
+
+  await navigator.clipboard.writeText(privateBundle.hash);
+
+  $("commitStatus").textContent =
+    "Hash copied. Post this in the group chat.";
+});
+
+// Copy private reveal information
+$("copyBundle").addEventListener("click", async () => {
+  if (!privateBundle) return;
+
+  const details =
+`Player: ${privateBundle.player}
+Pack: ${privateBundle.pack}
+Nonce: ${privateBundle.nonce}
+Commitment: ${privateBundle.hash}`;
+
+  await navigator.clipboard.writeText(details);
+
+  $("commitStatus").textContent =
+    "Private reveal details copied. Do not post these yet.";
+});
+
+// Verify a revealed choice
+$("verify").addEventListener("click", async () => {
+  const player = clean($("revealPlayer").value);
+  const pack = $("revealPack").value;
+  const nonce = clean($("nonce").value);
+  const expected = clean($("originalHash").value).toLowerCase();
+
+  const status = $("verifyStatus");
+  status.className = "status";
+
+  if (!player || !pack || !nonce || !expected) {
+    status.textContent = "Fill in all four fields.";
+    status.classList.add("bad");
+    return;
+  }
+
+  const actual = await sha256(
+    canonical(player, pack, nonce)
+  );
+
+  if (actual === expected) {
+    status.textContent =
+      `✓ VALID — ${player} committed to ${packName(pack)} before the reveal.`;
+
+    status.classList.add("ok");
+  } else {
+    status.textContent =
+      "✗ INVALID — this reveal does not match the original commitment. Check the player label, pack, nonce and hash.";
+
+    status.classList.add("bad");
+  }
+});
+
+// Clear the results board
+$("clear").addEventListener("click", () => {
+  ["result1", "result2", "result3"].forEach(id => {
+    $(id).value = "";
+  });
+});
+
+// Restore a saved commitment on this browser
+try {
+  const saved = JSON.parse(
+    localStorage.getItem(STORE) || "null"
+  );
+
+  if (saved) {
+    privateBundle = saved;
+
+    $("player").value = saved.player;
+    $("pack").value = saved.pack;
+    $("hash").textContent = saved.hash;
+
+    $("commitResult").hidden = false;
+
+    $("commitStatus").textContent =
+      "Your saved private commitment was restored on this device.";
+  }
+} catch (e) {}
+
+</script>
+</body>
+</html>
